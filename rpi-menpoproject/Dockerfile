@@ -53,3 +53,21 @@ RUN curl https://codeload.github.com/opencv/opencv/tar.gz/3.1.0         | tar xz
     make install && ldconfig                                                      && \
     rm -rf ../../opencv*
 
+# cyvlfeat/vlfeat install
+# We have to use a specially modified version of vlfeat that we can
+# compile for linux armv7. See the forked repo cloned below for details.
+# Also note that we run the full menpo test suite again (it should all work,
+# including cyvlfeat deps)
+RUN curl https://codeload.github.com/jabooth/vlfeat/tar.gz/rpi | tar xz      && \
+    curl https://codeload.github.com/menpo/cyvlfeat/tar.gz/v0.4.5 | tar xz   && \
+    cd vlfeat-*                                                              && \
+    make -j4                                                                 && \
+    cp bin/*/libvl.so /usr/local/lib/                                        && \
+    mkdir /usr/local/include/vl                                              && \
+    cp vl/*.h /usr/local/include/vl/                                         && \
+    ldconfig                                                                 && \
+    cd ..                                                                    && \
+    pip3 install -v --no-cache-dir ./cyvlfeat-*                              && \
+    rm -rf ./*vlfeat*                                                        && \
+    nosetests menpo
+
