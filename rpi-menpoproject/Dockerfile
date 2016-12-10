@@ -71,3 +71,10 @@ RUN curl https://codeload.github.com/jabooth/vlfeat/tar.gz/rpi | tar xz      && 
     rm -rf ./*vlfeat*                                                        && \
     nosetests menpo
 
+# FFMPEG Install
+# We trust the prebuild binary from here for now :)
+# https://github.com/ccrisan/motioneye/wiki/Install-On-Raspbian
+RUN curl https://raw.githubusercontent.com/wiki/ccrisan/motioneye/precompiled/ffmpeg_3.1.1-1_armhf.deb > ffmpeg.deb && \
+    dpkg -i ffmpeg*.deb                                                                                             && \
+    rm ffmpeg*.deb
+
