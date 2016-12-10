@@ -71,16 +71,19 @@ RUN curl https://codeload.github.com/jabooth/vlfeat/tar.gz/rpi | tar xz      && 
     rm -rf ./*vlfeat*                                                        && \
     nosetests menpo
 
-# CYPICO 
+# CYPICO
 # Notice that we ignore the deps here as cypico is a little too restructive atm
 # see https://github.com/menpo/cypico/pull/7
 RUN pip3 install --no-deps -v --no-cache-dir cypico
 
-# CYFFLD2 
+# CYFFLD2
 RUN apt-get update && apt-get install -y --no-install-recommends    \
         libeigen3-dev                                               \
         libxml2-dev                                                 \
         libfftw3-dev                                                \
  && rm -rf /var/lib/apt/lists/*                                  && \
     CFLAGS="-I/usr/include/eigen3 -I/usr/include/libxml2/" pip3 install -v --no-deps --no-cache-dir cyffld2
+
+# SCIKIT-SPARSE
+RUN pip3 install -v --no-cache-dir scikit-sparse
 
